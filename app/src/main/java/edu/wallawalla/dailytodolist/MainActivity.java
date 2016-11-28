@@ -103,9 +103,9 @@ public class MainActivity extends AppCompatActivity {
             BlankFragment blankFragment = new BlankFragment();
 
             switch (position) {
-                case 0: // DONE
-                case 1: // TODAY
-                case 2: // TOMORROW
+                case 0:
+                case 1:
+                case 2:
                     bundle.putInt("position", position);
                     blankFragment.setArguments(bundle);
                     return blankFragment;
