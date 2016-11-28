@@ -3,7 +3,7 @@ package edu.wallawalla.dailytodolist.db;
 import android.provider.BaseColumns;
 
 public final class TaskContract {
-    public static final int     DATABASE_VERSION    = 1;
+    public static final int     DATABASE_VERSION    = 2;
     public static final String  DATABASE_NAME       = "todotaskDB.db";
     private static final String TEXT_TYPE = " TEXT";
     private static final String COMMA_SEP = ",";
@@ -13,8 +13,11 @@ public final class TaskContract {
 
     public static class TaskEntry implements BaseColumns {
         public static final String TABLE            = "taskTable";
-        public static final String COLUMN_NAME_COL1 = "title";
-        public static final String COLUMN_NAME_COL2 = "date";
-        public static final String COLUMN_NAME_COL3 = "note";
+        public static final String COL_TASK_TITLE = "title";
+        public static final String COL_TASK_DATE = "date";
+        public static final String COL_TASK_TIME = "time";
+        public static final String COL_TASK_DONE = "complete";
+        public static final String COL_TASK_REPEAT = "repeat";
+        public static final String COL_TASK_DESC = "notes";
     }
 }
