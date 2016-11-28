@@ -160,11 +160,18 @@ public class BlankFragment extends Fragment {
     }
 
     public void setTaskToDone(View view) {
+        // so currently, we'll be setting all tasks with the same
+        // title to done, which we will need to fix later
         View parent = (View) view.getParent();
         TextView taskTextView = (TextView) parent.findViewById(R.id.tv_title);
         String task = String.valueOf(taskTextView.getText());
+
+        // set the done column of the task to 1 (TRUE), and update the database
+        ContentValues cv = new ContentValues();
+        cv.put(TaskContract.TaskEntry.COL_TASK_DONE, 1);
         SQLiteDatabase db = mHelper.getWritableDatabase();
-        db.delete(TaskContract.TaskEntry.TABLE,
+        db.update(TaskContract.TaskEntry.TABLE,
+                cv,
                 TaskContract.TaskEntry.COL_TASK_TITLE + " = ?",
                 new String[]{task});
         db.close();
