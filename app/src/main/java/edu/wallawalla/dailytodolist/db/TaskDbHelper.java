@@ -15,10 +15,10 @@ public class TaskDbHelper extends SQLiteOpenHelper {
         String CREATE_TASKS_TABLE = "CREATE TABLE " + TaskContract.TaskEntry.TABLE + "("
                 + TaskContract.TaskEntry._ID + " INTEGER PRIMARY KEY AUTOINCREMENT, "
                 + TaskContract.TaskEntry.COL_TASK_TITLE + " TEXT NOT NULL, "
-                + TaskContract.TaskEntry.COLUMN_NAME_COL2 + " INTEGER NOT NULL, "
-                + TaskContract.TaskEntry.COLUMN_NAME_COL3 + " INTEGER NOT NULL, "
-                + TaskContract.TaskEntry.COLUMN_NAME_COL4 + " INTEGER NOT NULL, "
-                + TaskContract.TaskEntry.COLUMN_NAME_COL5 + " INTEGER NOT NULL, "
+                + TaskContract.TaskEntry.COL_TASK_DATE + " INTEGER NOT NULL, "
+                + TaskContract.TaskEntry.COL_TASK_TIME + " INTEGER NOT NULL, "
+                + TaskContract.TaskEntry.COL_TASK_DONE + " INTEGER NOT NULL, "
+                + TaskContract.TaskEntry.COL_TASK_REPEAT + " INTEGER NOT NULL, "
                 + TaskContract.TaskEntry.COL_TASK_DESC + " INTEGER"
                 + ");";
         db.execSQL(CREATE_TASKS_TABLE);
@@ -31,12 +31,12 @@ public class TaskDbHelper extends SQLiteOpenHelper {
 
     public void addTask(ToDoTask task) {
         ContentValues values = new ContentValues();
-        values.put(TaskContract.TaskEntry.COL_TASK_TITLE, task.getCol1Data());
-        values.put(TaskContract.TaskEntry.COLUMN_NAME_COL2, task.getCol2Data());
-        values.put(TaskContract.TaskEntry.COLUMN_NAME_COL3, task.getCol3Data());
-        values.put(TaskContract.TaskEntry.COLUMN_NAME_COL4, task.getCol4Data());
-        values.put(TaskContract.TaskEntry.COLUMN_NAME_COL5, task.getCol5Data());
-        values.put(TaskContract.TaskEntry.COL_TASK_DESC, task.getCol6Data());
+        values.put(TaskContract.TaskEntry.COL_TASK_TITLE, task.getTitle());
+        values.put(TaskContract.TaskEntry.COL_TASK_DATE, task.getDate());
+        values.put(TaskContract.TaskEntry.COL_TASK_TIME, task.getTime());
+        values.put(TaskContract.TaskEntry.COL_TASK_DONE, task.getDone());
+        values.put(TaskContract.TaskEntry.COL_TASK_REPEAT, task.getRepeat());
+        values.put(TaskContract.TaskEntry.COL_TASK_DESC, task.getDesc());
 
 
         SQLiteDatabase db = this.getWritableDatabase();
@@ -58,7 +58,7 @@ public class TaskDbHelper extends SQLiteOpenHelper {
 
         // How we want the results sorted in the resulting Cursor
         String sortOrder = null;
-        //        TaskContract.TaskEntry.COLUMN_NAME_COL2;
+        //        TaskContract.TaskEntry.COL_TASK_DATE;
 
         SQLiteDatabase db = this.getReadableDatabase();
         Cursor c = db.query(

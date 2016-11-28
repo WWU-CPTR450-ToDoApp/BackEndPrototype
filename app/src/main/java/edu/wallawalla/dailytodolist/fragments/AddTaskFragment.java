@@ -19,7 +19,6 @@ import android.widget.TimePicker;
 
 import java.util.Calendar;
 
-import edu.wallawalla.dailytodolist.BlankFragment;
 import edu.wallawalla.dailytodolist.MainActivity;
 import edu.wallawalla.dailytodolist.R;
 

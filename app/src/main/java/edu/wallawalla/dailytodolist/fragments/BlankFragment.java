@@ -1,4 +1,4 @@
-package edu.wallawalla.dailytodolist;
+package edu.wallawalla.dailytodolist.fragments;
 import android.content.ContentValues;
 import android.content.DialogInterface;
 import android.database.Cursor;
@@ -22,10 +22,11 @@ import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import edu.wallawalla.dailytodolist.R;
+import edu.wallawalla.dailytodolist.RecyclerAdapter;
 import edu.wallawalla.dailytodolist.db.TaskDbHelper;
 import edu.wallawalla.dailytodolist.db.TaskContract;
 import edu.wallawalla.dailytodolist.db.ToDoTask;
-import edu.wallawalla.dailytodolist.fragments.AddTaskFragment;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -158,6 +159,18 @@ public class BlankFragment extends Fragment {
         updateUI();
     }
 
+    public void setTaskToDone(View view) {
+        View parent = (View) view.getParent();
+        TextView taskTextView = (TextView) parent.findViewById(R.id.tv_title);
+        String task = String.valueOf(taskTextView.getText());
+        SQLiteDatabase db = mHelper.getWritableDatabase();
+        db.delete(TaskContract.TaskEntry.TABLE,
+                TaskContract.TaskEntry.COL_TASK_TITLE + " = ?",
+                new String[]{task});
+        db.close();
+        updateUI();
+    }
+
     private void initSwipe() {
         ItemTouchHelper.SimpleCallback simpleItemTouchCallback = new ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.LEFT | ItemTouchHelper.RIGHT) {
 
@@ -171,7 +184,8 @@ public class BlankFragment extends Fragment {
                 RecyclerAdapter.MyViewHolder vh = (RecyclerAdapter.MyViewHolder) viewHolder;
 
                 if (direction == ItemTouchHelper.LEFT) {
-                    deleteTask(vh.mTaskView);
+                    //deleteTask(vh.mTaskView);
+                    setTaskToDone(vh.mTaskView);
                 } else {
                     editTask(vh.mTaskView);
                 }
@@ -228,7 +242,7 @@ public class BlankFragment extends Fragment {
                 };
                 selection = TaskContract.TaskEntry.COL_TASK_TITLE + " LIKE '%'";
                 selectionArgs = new String[]{};
-                sortOrder = TaskContract.TaskEntry.COLUMN_NAME_COL2 + "," + TaskContract.TaskEntry.COLUMN_NAME_COL3;
+                sortOrder = TaskContract.TaskEntry.COL_TASK_DATE + "," + TaskContract.TaskEntry.COL_TASK_TIME;
                 c = mHelper.findTask(projection, selection, selectionArgs, sortOrder);
                 break;
             case 0: // DONE
@@ -237,9 +251,9 @@ public class BlankFragment extends Fragment {
                         TaskContract.TaskEntry.COL_TASK_TITLE,
                         TaskContract.TaskEntry.COL_TASK_DESC
                 };
-                selection = TaskContract.TaskEntry.COLUMN_NAME_COL4 + " = ?";
+                selection = TaskContract.TaskEntry.COL_TASK_DONE + " = ?";
                 selectionArgs = new String[]{"1"};
-                sortOrder = TaskContract.TaskEntry.COLUMN_NAME_COL2 + "," + TaskContract.TaskEntry.COLUMN_NAME_COL3;
+                sortOrder = TaskContract.TaskEntry.COL_TASK_DATE + "," + TaskContract.TaskEntry.COL_TASK_TIME;
                 c = mHelper.findTask(projection, selection, selectionArgs, sortOrder);
                 break;
             case 1: // TODAY
@@ -248,11 +262,11 @@ public class BlankFragment extends Fragment {
                         TaskContract.TaskEntry.COL_TASK_TITLE,
                         TaskContract.TaskEntry.COL_TASK_DESC
                 };
-                selection = TaskContract.TaskEntry.COLUMN_NAME_COL2 + " < ?";
+                selection = TaskContract.TaskEntry.COL_TASK_DATE + " < ?";
                 cal = Calendar.getInstance();
                 cal.set(cal.get(Calendar.YEAR), cal.get(Calendar.MONTH), cal.get(Calendar.DAY_OF_MONTH) + 1, 0, 0, 0);
                 selectionArgs = new String[]{String.valueOf(cal.getTimeInMillis())};
-                sortOrder = TaskContract.TaskEntry.COLUMN_NAME_COL2 + "," + TaskContract.TaskEntry.COLUMN_NAME_COL3;
+                sortOrder = TaskContract.TaskEntry.COL_TASK_DATE + "," + TaskContract.TaskEntry.COL_TASK_TIME;
                 c = mHelper.findTask(projection, selection, selectionArgs, sortOrder);
                 break;
             case 2: // TOMORROW
@@ -261,8 +275,8 @@ public class BlankFragment extends Fragment {
                         TaskContract.TaskEntry.COL_TASK_TITLE,
                         TaskContract.TaskEntry.COL_TASK_DESC
                 };
-                selection = TaskContract.TaskEntry.COLUMN_NAME_COL2 + " > ? "
-                        + "AND " + TaskContract.TaskEntry.COLUMN_NAME_COL2 + " < ?";
+                selection = TaskContract.TaskEntry.COL_TASK_DATE + " > ? "
+                        + "AND " + TaskContract.TaskEntry.COL_TASK_DATE + " < ?";
                 cal = Calendar.getInstance();
                 cal.set(cal.get(Calendar.YEAR), cal.get(Calendar.MONTH), cal.get(Calendar.DAY_OF_MONTH) + 1, 0, 0, 0);
                 calHi = Calendar.getInstance();
@@ -270,7 +284,7 @@ public class BlankFragment extends Fragment {
                 selectionArgs = new String[]{
                         String.valueOf(cal.getTimeInMillis()),
                         String.valueOf(calHi.getTimeInMillis())};
-                sortOrder = TaskContract.TaskEntry.COLUMN_NAME_COL2 + "," + TaskContract.TaskEntry.COLUMN_NAME_COL3;
+                sortOrder = TaskContract.TaskEntry.COL_TASK_DATE + "," + TaskContract.TaskEntry.COL_TASK_TIME;
                 c = mHelper.findTask(projection, selection, selectionArgs, sortOrder);
                 break;
             default:

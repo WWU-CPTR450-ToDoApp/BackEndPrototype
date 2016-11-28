@@ -12,15 +12,10 @@ import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import static android.R.attr.fragment;
+import edu.wallawalla.dailytodolist.fragments.BlankFragment;
 
 public class MainActivity extends AppCompatActivity {
     ViewPager viewPager;
@@ -103,9 +98,9 @@ public class MainActivity extends AppCompatActivity {
             BlankFragment blankFragment = new BlankFragment();
 
             switch (position) {
-                case 0:
-                case 1:
-                case 2:
+                case 0: // DONE
+                case 1: // TODAY
+                case 2: // TOMORROW
                     bundle.putInt("position", position);
                     blankFragment.setArguments(bundle);
                     return blankFragment;
