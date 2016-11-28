@@ -1,13 +1,6 @@
 package edu.wallawalla.dailytodolist;
 
-<<<<<<< HEAD
 /* http://stackoverflow.com/questions/34579614/how-to-implement-recyclerview-in-a-fragment-with-tablayout */
-=======
-import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
-import android.view.Menu;
-import android.view.MenuItem;
->>>>>>> master
 
 import android.content.Context;
 import android.os.Bundle;
@@ -134,24 +127,4 @@ public class MainActivity extends AppCompatActivity {
     public ViewPager getViewPager() {
         return viewPager;
     }
-<<<<<<< HEAD
 }
-=======
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.main_menu, menu);
-        return super.onCreateOptionsMenu(menu);
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        switch(item.getItemId()) {
-            case R.id.action_settings:
-                return true;
-            default:
-                return super.onOptionsItemSelected(item);
-        }
-    }
-}
->>>>>>> master
