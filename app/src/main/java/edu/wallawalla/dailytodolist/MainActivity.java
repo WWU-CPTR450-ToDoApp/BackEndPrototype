@@ -1,16 +1,17 @@
 package edu.wallawalla.dailytodolist;
 
-import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
-import android.view.Menu;
-import android.view.MenuItem;
+        import android.os.Bundle;
+        import android.support.v7.app.AppCompatActivity;
+        import android.view.Menu;
+        import android.view.MenuItem;
+        import android.view.View;
+        import android.widget.EditText;
+        import android.widget.TextView;
 
-import android.view.View;
-import android.widget.EditText;
-import android.widget.TextView;
+        import edu.wallawalla.dailytodolist.db.DBHandler;
 
-import edu.wallawalla.dailytodolist.db.DBHandler;
-import edu.wallawalla.dailytodolist.db.ToDoTask;
+        import edu.wallawalla.dailytodolist.broadcast_receivers.NotificationEventReceiver;
+        import edu.wallawalla.dailytodolist.db.ToDoTask;
 
 public class MainActivity extends AppCompatActivity {
     TextView idView;
@@ -28,8 +29,15 @@ public class MainActivity extends AppCompatActivity {
         dbHandler = new DBHandler(this);
     }
 
+    public void onSendNotificationsButtonClick(View view) {
+        NotificationEventReceiver.setupAlarm(getApplicationContext());
+    }
+
     public void newTask (View view) {
+        NotificationEventReceiver.setupAlarm(getApplicationContext());
+        //NotificationReceiver.setupAlarm(getApplicationContext());
         ToDoTask task = new ToDoTask(taskBox.getText().toString());
+        //processStartNotification(view);//.setupAlarm(getApplicationContext());
         dbHandler.addTask(task);
         taskBox.setText("");
     }
