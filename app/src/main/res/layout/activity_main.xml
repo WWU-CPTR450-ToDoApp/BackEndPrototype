@@ -76,5 +76,13 @@
             android:id="@+id/delete_string"
             android:text="Delete"
             android:onClick="removeTask" />
+
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Do it!"
+            android:id="@+id/sendNotifications"
+            android:onClick="onSendNotificationsButtonClick"/>
     </LinearLayout>
 </LinearLayout>

@@ -1,3 +1,4 @@
 <resources>
-    <string name="app_name">Daily ToDo List</string>
+    <string name="app_name">NotificationBySchedule</string>
+    <string name="title_activity_notification">NotificationActivity</string>
 </resources>

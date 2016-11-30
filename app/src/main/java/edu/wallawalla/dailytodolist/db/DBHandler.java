@@ -1,10 +1,10 @@
 package edu.wallawalla.dailytodolist.db;
 
+import android.content.ContentValues;
+import android.content.Context;
+import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
-import android.content.Context;
-import android.content.ContentValues;
-import android.database.Cursor;
 import android.util.Log;
 
 public class DBHandler extends SQLiteOpenHelper {
