@@ -29,15 +29,9 @@ public class MainActivity extends AppCompatActivity {
         dbHandler = new DBHandler(this);
     }
 
-    public void onSendNotificationsButtonClick(View view) {
-        NotificationEventReceiver.setupAlarm(getApplicationContext());
-    }
-
     public void newTask (View view) {
-        NotificationEventReceiver.setupAlarm(getApplicationContext());
-        //NotificationReceiver.setupAlarm(getApplicationContext());
+        NotificationEventReceiver.setupAlarm(getApplicationContext(),taskBox.getText().toString());
         ToDoTask task = new ToDoTask(taskBox.getText().toString());
-        //processStartNotification(view);//.setupAlarm(getApplicationContext());
         dbHandler.addTask(task);
         taskBox.setText("");
     }

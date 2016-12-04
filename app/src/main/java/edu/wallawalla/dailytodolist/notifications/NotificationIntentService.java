@@ -43,15 +43,16 @@ public class NotificationIntentService extends IntentService {
         try {
             String action = intent.getAction();
             if (ACTION_START.equals(action)) {
-                processStartNotification();
+                processStartNotification(intent.getStringExtra("Name"));
             }
         } finally {
             WakefulBroadcastReceiver.completeWakefulIntent(intent);
         }
     }
 
-    private void processStartNotification() {
+    private void processStartNotification(String name) {
         // Do something. For example, fetch fresh data from backend to create a rich notification?
+
 
         NotificationCompat.Builder mBuilder =
                 new NotificationCompat.Builder(this);
@@ -62,18 +63,14 @@ public class NotificationIntentService extends IntentService {
         mBuilder.setContentIntent(pendingIntent);
 
         mBuilder.setSmallIcon(R.drawable.notification_icon);
-        mBuilder.setContentTitle("My notification");
-        mBuilder.setContentText("Hello World!");
+        mBuilder.setContentTitle("To Do List");
+        mBuilder.setContentText(name);
 
         Uri alarmSound = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
         mBuilder.setSound(alarmSound);
         mBuilder.setLights(Color.GREEN, 3000, 3000);
         mBuilder.setVibrate(new long[] { 0, 100, 100, 100, 1000, 1000, 1000 });
 
-        /*Uri notification = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
-        Ringtone r = RingtoneManager.getRingtone(getApplicationContext(), notification);
-        r.play();
-*/
         NotificationManager mNotificationManager =
 
                 (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);

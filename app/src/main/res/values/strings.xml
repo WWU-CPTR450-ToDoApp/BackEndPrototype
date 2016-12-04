@@ -1,4 +1,4 @@
 <resources>
-    <string name="app_name">NotificationBySchedule</string>
+    <string name="app_name">Daily Todo</string>
     <string name="title_activity_notification">NotificationActivity</string>
 </resources>
