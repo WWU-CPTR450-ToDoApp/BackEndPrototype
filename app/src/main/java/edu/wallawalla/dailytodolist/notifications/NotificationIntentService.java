@@ -13,11 +13,11 @@ import android.support.v4.content.WakefulBroadcastReceiver;
 import android.util.Log;
 
 import edu.wallawalla.dailytodolist.MainActivity;
+import edu.wallawalla.dailytodolist.broadcast_receivers.NotificationEventReceiver;
 import edu.wallawalla.dailytodolist.R;
 
 public class NotificationIntentService extends IntentService {
 
-    private static final int NOTIFICATION_ID = 1;
     private static final String ACTION_START = "ACTION_START";
     private static final String ACTION_DELETE = "ACTION_DELETE";
 
@@ -43,38 +43,39 @@ public class NotificationIntentService extends IntentService {
         try {
             String action = intent.getAction();
             if (ACTION_START.equals(action)) {
-                processStartNotification(intent.getStringExtra("Name"));
+                processStartNotification(intent.getStringExtra("Name"),intent.getStringExtra("id"));
             }
         } finally {
             WakefulBroadcastReceiver.completeWakefulIntent(intent);
         }
     }
 
-    private void processStartNotification(String name) {
+    private void processStartNotification(String name,String id) {
         // Do something. For example, fetch fresh data from backend to create a rich notification?
 
-
-        NotificationCompat.Builder mBuilder =
+        Log.d("N",id);
+        final NotificationCompat.Builder mBuilder =
                 new NotificationCompat.Builder(this);
 
-        Intent intent = new Intent(this, MainActivity.class);
-        PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, intent, 0);
-
-        mBuilder.setContentIntent(pendingIntent);
-
-        mBuilder.setSmallIcon(R.drawable.notification_icon);
         mBuilder.setContentTitle("To Do List");
         mBuilder.setContentText(name);
+        mBuilder.setAutoCancel(true);
+        mBuilder.setSmallIcon(R.drawable.notification_icon);
+
+        Intent intent = new Intent(this, MainActivity.class);
+        PendingIntent pendingIntent = PendingIntent.getActivity(this, Integer.parseInt(id), intent, PendingIntent.FLAG_UPDATE_CURRENT);
+
+        mBuilder.setContentIntent(pendingIntent);
+        mBuilder.setDeleteIntent(NotificationEventReceiver.getDeleteIntent(this,Integer.parseInt(id)));
 
         Uri alarmSound = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
         mBuilder.setSound(alarmSound);
         mBuilder.setLights(Color.GREEN, 3000, 3000);
         mBuilder.setVibrate(new long[] { 0, 100, 100, 100, 1000, 1000, 1000 });
 
-        NotificationManager mNotificationManager =
+        final NotificationManager mNotificationManager = (NotificationManager) this.getSystemService(Context.NOTIFICATION_SERVICE);
 
-                (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+        mNotificationManager.notify(Integer.parseInt(id), mBuilder.build());
 
-        mNotificationManager.notify(001, mBuilder.build());
     }
 }
